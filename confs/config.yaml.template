@@ -21,6 +21,8 @@ extractors:
 
  programming:
   - [java, JavaEE]
+  - Java
+  - Spring
   - C
   - C++
   - C#

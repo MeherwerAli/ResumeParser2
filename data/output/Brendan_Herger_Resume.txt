@@ -77,11 +77,8 @@ keywords; Python and Pandas
 Online
 
 Hergertarian.com
-
 github.com/bjherger
-
 linkedin.com/in/bjherger
-
 hergertarian.wordpress.com/
 
 

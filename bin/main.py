@@ -15,7 +15,7 @@ import spacy
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-sys.path.insert(0,parentdir)
+sys.path.insert(0, parentdir)
 
 from bin import field_extraction
 from bin import lib
@@ -33,7 +33,7 @@ def main():
     observations = extract()
 
     # Spacy: Spacy NLP
-    nlp = spacy.load('en')
+    nlp = spacy.load('en_core_web_sm')
 
     # Transform data to have appropriate fields
     observations, nlp = transform(observations, nlp)
@@ -42,6 +42,7 @@ def main():
     load(observations, nlp)
 
     pass
+
 
 def extract():
     logging.info('Begin extract')
@@ -80,11 +81,11 @@ def transform(observations, nlp):
     # Extract candidate name
     observations['candidate_name'] = observations['text'].apply(lambda x:
                                                                 field_extraction.candidate_name_extractor(x, nlp))
-    
-    if observations['candidate_name'] == "NOT FOUND":
-        match = re.search(field_extraction.NAME_REGEX, observations['text'], re.IGNORECASE)
-        observations['candidate_name'] = match[0]
-        
+
+    if observations.empty:
+        if observations['candidate_name'] == "NOT FOUND":
+            match = re.search(field_extraction.NAME_REGEX, observations['text'], re.IGNORECASE)
+            observations['candidate_name'] = match[0]
 
     # Extract contact fields
     observations['email'] = observations['text'].apply(lambda x: lib.term_match(x, field_extraction.EMAIL_REGEX))
